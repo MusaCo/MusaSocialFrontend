@@ -13,7 +13,7 @@ const [posts, SetPosts] = useState([]);
     
     useEffect(() => {
         const fetchPosts = async () =>{
-            const result = username? await axios.get(`https://musasocialapi.herokuapp.com/post/profile/${username}`) : await axios.get(`/post/timeline/${user?._id}`)
+            const result = username? await axios.get(`https://musasocialapi.herokuapp.com/post/profile/${username}`) : await axios.get(`https://musasocialapi.herokuapp.com/post/timeline/${user?._id}`)
             SetPosts(result.data.sort((p1, p2) =>{
                 return new Date(p2.createdAt) - new Date(p1.createdAt);
             }));
