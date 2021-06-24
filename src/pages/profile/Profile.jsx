@@ -43,6 +43,7 @@ export default function Profile() {
                 });
                 if (res.data.Loggedin === true) {
                     setisLoggedin(true)
+                    setUser(res.data.message.user)
                 }
                 else{
                     setisLoggedin(false);

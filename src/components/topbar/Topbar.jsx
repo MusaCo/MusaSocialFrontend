@@ -41,7 +41,7 @@ export default function Topbar() {
                     }
                 });
                 if (res.data.Loggedin === true) {
-                    setuser(res.data.message)
+                    setuser(res.data.message.user)
                 }
                 
             } 

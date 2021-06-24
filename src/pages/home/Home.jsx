@@ -10,6 +10,7 @@ import { AuthContext } from "../../context/AuthContext";
 
 export default function Home() {
     const [isLoggedin, setisLoggedin] = useState(true)
+    const [user, setuser] = useState(null)
     //const{user, isFetching, error, dispatch} = useContext(AuthContext);
     
     useEffect(() => {
@@ -37,6 +38,7 @@ export default function Home() {
                     }
                 });
                 if (res.data.Loggedin === true) {
+                    setuser(res.data.message.user)
                     setisLoggedin(true)
                 }
                 else{
@@ -60,7 +62,7 @@ export default function Home() {
         <Topbar/>
         <div className="homeContainer">
             <Sidebar/>
-            <Feed/>
+            <Feed user={user}/>
             <Rightbar/>
         </div>
         

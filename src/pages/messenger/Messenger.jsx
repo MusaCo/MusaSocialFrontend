@@ -49,7 +49,7 @@ export default function Messenger() {
                     }
                 });
                 if (res.data.Loggedin === true) {
-                    setuser(res.data.message)
+                    setuser(res.data.message.user)
                     setisLoggedin(true)
                 }
                 else{
@@ -70,7 +70,7 @@ export default function Messenger() {
         if (isLoggedin) {
             const getConversations = async () =>{
                 try {
-                    const res = await axios.get("/conversations/" + user?._id)
+                    const res = await axios.get("https://musasocialapi.herokuapp.com/conversations/" + user?._id)
                     setconversations(res.data)
                 }
                 catch (error) {
@@ -113,7 +113,7 @@ export default function Messenger() {
         if (isLoggedin) {
             const getMessages = async () =>{
                 try {
-                    const res = await axios.get("/messages/" + currentChat?._id)
+                    const res = await axios.get("https://musasocialapi.herokuapp.com/messages/" + currentChat?._id)
                     setmessages(res.data)
                 } 
                 catch (error) {
@@ -145,7 +145,7 @@ export default function Messenger() {
         })
         setnewMessage("");
         try {
-            const res = await axios.post("/messages", message)
+            const res = await axios.post("https://musasocialapi.herokuapp.com/messages", message)
             setmessages([...messages , res.data])
         } 
         catch (error) {

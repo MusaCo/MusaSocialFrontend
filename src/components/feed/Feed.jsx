@@ -5,13 +5,14 @@ import  axios  from "axios";
 import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext } from "../../context/AuthContext";
 
-export default function Feed({username}) {
-    const {user} = useContext(AuthContext)
+export default function Feed({username, user}) {
+    //const {user} = useContext(AuthContext)
     const PF = process.env.REACT_APP_PUBLIC_FOLDER;
 
 const [posts, SetPosts] = useState([]);
     
     useEffect(() => {
+        console.log(user?.username)
         const fetchPosts = async () =>{
             const result = username? await axios.get(`https://musasocialapi.herokuapp.com/post/profile/${username}`) : await axios.get(`https://musasocialapi.herokuapp.com/post/timeline/${user?._id}`)
             SetPosts(result.data.sort((p1, p2) =>{
