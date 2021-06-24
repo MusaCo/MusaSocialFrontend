@@ -7,7 +7,8 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 
 export default function Post({post}) {
-    const {user:currentuser} = useContext(AuthContext)
+    const [currentuser, setcurrentuser] = useState(initialState)
+    //const {user:currentuser} = useContext(AuthContext)
     const [user, setUser] = useState({})
     const [like, setLike] = useState(post.likes.length)
     const [isLiked, setIsLiked] = useState(false)
@@ -16,6 +17,27 @@ export default function Post({post}) {
     useEffect(() =>{
         setIsLiked(post.likes.includes(currentuser._id));
     }, [currentuser?._id, post.likes]);
+    useEffect(() => {
+        const checkifLoggedin = async () =>{
+            try {
+                const accesstoken = localStorage.getItem("accesstoken")
+                const res = await axios.get("https://musasocialapi.herokuapp.com/auth/login", {
+                    headers: {
+                        authorization: "Bearer " + accesstoken
+                    }
+                });
+                if (res.data.Loggedin === true) {
+                    setcurrentuser(res.data.message.user)
+                }
+                
+            } 
+            catch (error) {
+                console.log(error)
+             }
+        }
+        checkifLoggedin();
+        
+    }, [])
 
     useEffect(() => {
         const fetchUser = async () =>{
