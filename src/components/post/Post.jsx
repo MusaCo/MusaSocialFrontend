@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 
 export default function Post({post}) {
-    const [currentuser, setcurrentuser] = useState(initialState)
+    const [currentuser, setcurrentuser] = useState(null)
     //const {user:currentuser} = useContext(AuthContext)
     const [user, setUser] = useState({})
     const [like, setLike] = useState(post.likes.length)
