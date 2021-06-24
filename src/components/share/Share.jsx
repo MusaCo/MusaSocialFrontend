@@ -1,7 +1,7 @@
 import "./share.css";
 import { PermMedia, Label, Room, EmojiEmotions, Cancel } from "@material-ui/icons";
 import { AuthContext } from "../../context/AuthContext";
-import {useContext, useRef, useState} from "react"
+import {useEffect, useRef, useState} from "react"
 import axios from "axios";
 
 export default function Share() {

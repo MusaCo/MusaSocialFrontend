@@ -14,6 +14,7 @@ export default function Topbar() {
         //     window.location.reload();
         // }
         localStorage.removeItem("accesstoken")
+        window.location.reload();
     }
     useEffect(() => {
         const checkifLoggedin = async () =>{
