@@ -5,15 +5,36 @@ import {useContext, useRef, useState} from "react"
 import axios from "axios";
 
 export default function Share() {
-    const {user} = useContext(AuthContext)
+    // const {user} = useContext(AuthContext)
+    const [user, setuser] = useState(null)
     const PF = process.env.REACT_APP_PUBLIC_FOLDER;
     const desc = useRef();
     const [file, setfile] = useState(null)
-
+    useEffect(() => {
+        const checkifLoggedin = async () =>{
+            try {
+                const accesstoken = localStorage.getItem("accesstoken")
+                const res = await axios.get("https://musasocialapi.herokuapp.com/auth/login", {
+                    headers: {
+                        authorization: "Bearer " + accesstoken
+                    }
+                });
+                if (res.data.Loggedin === true) {
+                    setuser(res.data.message.user)
+                }
+                
+            } 
+            catch (error) {
+                console.log(error)
+             }
+        }
+        checkifLoggedin();
+        
+    }, [])
     const submitHandler = async(e) =>{
         e.preventDefault()
         const newPost = {
-            userId: user._id,
+            userId: user?._id,
             desc: desc.current.value? desc.current.value : " " 
         }
         if (file) {
