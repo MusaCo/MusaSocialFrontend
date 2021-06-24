@@ -15,7 +15,7 @@ export default function Post({post}) {
     const PF = process.env.REACT_APP_PUBLIC_FOLDER;
     
     useEffect(() =>{
-        setIsLiked(post.likes.includes(currentuser._id));
+        setIsLiked(post.likes.includes(currentuser?._id));
     }, [currentuser?._id, post.likes]);
     useEffect(() => {
         const checkifLoggedin = async () =>{
@@ -50,7 +50,7 @@ export default function Post({post}) {
 
     const likeHandler = () =>{
         try {
-            axios.put("https://musasocialapi.herokuapp.com/post/" + post._id + "/like", {userId: currentuser._id})
+            axios.put("https://musasocialapi.herokuapp.com/post/" + post?._id + "/like", {userId: currentuser?._id})
             console.log("post liked........")
         } catch (error) {
             console.log(error)
