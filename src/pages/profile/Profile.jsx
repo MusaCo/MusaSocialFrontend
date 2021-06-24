@@ -14,16 +14,35 @@ export default function Profile() {
     const PF = process.env.REACT_APP_PUBLIC_FOLDER;
     const params = useParams().username;
     const [isLoggedin, setisLoggedin] = useState(true)
-    const{dispatch} = useContext(AuthContext);
+    //const{dispatch} = useContext(AuthContext);
+    
     
     useEffect(() => {
         const checkifLoggedin = async () =>{
-            dispatch({type: "LOGIN_START"});
+            // dispatch({type: "LOGIN_START"});
+            // try {
+            //     const res = await axios.get("https://musasocialapi.herokuapp.com/auth/login");
+            //     if (res.data.Loggedin === true) {
+            //         setisLoggedin(true)
+            //         dispatch({type: "LOGIN_SUCCESS", payload: res.data.message});
+            //     }
+            //     else{
+            //         setisLoggedin(false);
+            //     }
+            // } 
+            // catch (error) {
+            //     setisLoggedin(false);
+            //     dispatch({type: "LOGIN_FAILURE", payload: error});    
+            //  }
             try {
-                const res = await axios.get("/auth/login");
+                const accesstoken = localStorage.getItem("accesstoken")
+                const res = await axios.get("https://musasocialapi.herokuapp.com/auth/login", {
+                    headers: {
+                        authorization: "Bearer " + accesstoken
+                    }
+                });
                 if (res.data.Loggedin === true) {
                     setisLoggedin(true)
-                    dispatch({type: "LOGIN_SUCCESS", payload: res.data.message});
                 }
                 else{
                     setisLoggedin(false);
@@ -31,7 +50,6 @@ export default function Profile() {
             } 
             catch (error) {
                 setisLoggedin(false);
-                dispatch({type: "LOGIN_FAILURE", payload: error});    
              }
             }
         checkifLoggedin();
@@ -43,7 +61,7 @@ export default function Profile() {
     useEffect(() => {
         if (isLoggedin) {
             const fetchUser = async () =>{
-                const result = await axios.get(`/users?username=${params}`);
+                const result = await axios.get(`https://musasocialapi.herokuapp.com/users?username=${params}`);
                 setUser(result.data)
             };
             fetchUser();

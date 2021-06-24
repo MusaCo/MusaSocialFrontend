@@ -19,16 +19,37 @@ export default function Messenger() {
     const Socket = useRef()
     const scrollRef = useRef()
     const [isLoggedin, setisLoggedin] = useState(true)
-    const{user, dispatch} = useContext(AuthContext);
+    // const{user, dispatch} = useContext(AuthContext);
+    const [user, setuser] = useState(null)
+    
     
     useEffect(() => {
         const checkifLoggedin = async () =>{
-            dispatch({type: "LOGIN_START"});
-            try {
-                const res = await axios.get("/auth/login");
-                if (res.data.Loggedin === true) {
+            // dispatch({type: "LOGIN_START"});
+            // try {
+            //     const res = await axios.get("https://musasocialapi.herokuapp.com/auth/login");
+            //     if (res.data.Loggedin === true) {
                     
-                    dispatch({type: "LOGIN_SUCCESS", payload: res.data.message});
+            //         dispatch({type: "LOGIN_SUCCESS", payload: res.data.message});
+            //         setisLoggedin(true)
+            //     }
+            //     else{
+            //         setisLoggedin(false);
+            //     }
+            // } 
+            // catch (error) {
+            //     setisLoggedin(false);
+            //     dispatch({type: "LOGIN_FAILURE", payload: error});    
+            //  }
+            try {
+                const accesstoken = localStorage.getItem("accesstoken")
+                const res = await axios.get("https://musasocialapi.herokuapp.com/auth/login", {
+                    headers: {
+                        authorization: "Bearer " + accesstoken
+                    }
+                });
+                if (res.data.Loggedin === true) {
+                    setuser(res.data.message)
                     setisLoggedin(true)
                 }
                 else{
@@ -37,9 +58,9 @@ export default function Messenger() {
             } 
             catch (error) {
                 setisLoggedin(false);
-                dispatch({type: "LOGIN_FAILURE", payload: error});    
              }
             }
+            
         checkifLoggedin();
         
     }, [])

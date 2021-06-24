@@ -10,16 +10,34 @@ import { AuthContext } from "../../context/AuthContext";
 
 export default function Home() {
     const [isLoggedin, setisLoggedin] = useState(true)
-    const{user, isFetching, error, dispatch} = useContext(AuthContext);
+    //const{user, isFetching, error, dispatch} = useContext(AuthContext);
     
     useEffect(() => {
         const checkifLoggedin = async () =>{
-            dispatch({type: "LOGIN_START"});
+            // dispatch({type: "LOGIN_START"});
+            // try {
+            //     const res = await axios.get("https://musasocialapi.herokuapp.com/auth/login");
+                // if (res.data.Loggedin === true) {
+                //     setisLoggedin(true)
+                //     dispatch({type: "LOGIN_SUCCESS", payload: res.data.message});
+                // }
+            //     else{
+            //         setisLoggedin(false);
+            //     }
+            // } 
+            // catch (error) {
+            //     setisLoggedin(false);
+            //     dispatch({type: "LOGIN_FAILURE", payload: error});    
+            //  }
             try {
-                const res = await axios.get("https://musasocialapi.herokuapp.com/auth/login");
+                const accesstoken = localStorage.getItem("accesstoken")
+                const res = await axios.get("https://musasocialapi.herokuapp.com/auth/login", {
+                    headers: {
+                        authorization: "Bearer " + accesstoken
+                    }
+                });
                 if (res.data.Loggedin === true) {
                     setisLoggedin(true)
-                    dispatch({type: "LOGIN_SUCCESS", payload: res.data.message});
                 }
                 else{
                     setisLoggedin(false);
@@ -27,9 +45,8 @@ export default function Home() {
             } 
             catch (error) {
                 setisLoggedin(false);
-                dispatch({type: "LOGIN_FAILURE", payload: error});    
              }
-            }
+        }
         checkifLoggedin();
         
     }, [])

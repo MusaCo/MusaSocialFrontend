@@ -14,24 +14,32 @@ export default function Login() {
     
     const Submit = async (e) => {
         e.preventDefault();
-        dispatch({type: "LOGIN_START"});
+        // dispatch({type: "LOGIN_START"});
+        // try {
+        //     const res = await axios.post("https://musasocialapi.herokuapp.com/auth/login", {email: email.current.value, password: password.current.value});
+        //     dispatch({type: "LOGIN_SUCCESS", payload: res.data.accesstoken});
+        //     history.push("/")
+        
+        // } catch (error) {
+        //     dispatch({type: "LOGIN_FAILURE", payload: error});
+        //     console.log(error)
+        // }
+        // loginCall({email: email.current.value, password: password.current.value}, dispatch)
         try {
             const res = await axios.post("https://musasocialapi.herokuapp.com/auth/login", {email: email.current.value, password: password.current.value});
-            dispatch({type: "LOGIN_SUCCESS", payload: res.data});
+            localStorage.setItem("accesstoken", res.data.accesstoken)
             history.push("/")
-        
-        } catch (error) {
-            dispatch({type: "LOGIN_FAILURE", payload: error});
+        } 
+        catch (error) {
             console.log(error)
         }
-        // loginCall({email: email.current.value, password: password.current.value}, dispatch)
-    };
+    }
     return (
         <div className="login">
             <div className="loginWrapper">
                 <div className="loginLeft">
-                    <h3 className="loginLogo">A7a Swk Social</h3>
-                    <span className="loginDesc">Connect with Friends That You Dont Have :)</span>
+                    <h3 className="loginLogo">MusaSocial</h3>
+                    <span className="loginDesc">Connect with Friends That You Don't Have :)</span>
                 </div>
                 <div className="loginRight">
                     <form className="loginBox" onSubmit={Submit}>

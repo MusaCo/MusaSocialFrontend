@@ -1,20 +1,58 @@
 import { Search, Person, Chat, Notifications } from "@material-ui/icons";
-import { AuthContext } from "../../context/AuthContext";
-import {useContext} from "react"
+//import { AuthContext } from "../../context/AuthContext";
+import {useEffect, useState} from "react"
 import "./topbar.css";
 import { Link } from "react-router-dom";
 import axios from "axios";
 export default function Topbar() {
-    const {user} = useContext(AuthContext)
+    //const {user} = useContext(AuthContext)
+    const [user, setuser] = useState(null)
     const PF = process.env.REACT_APP_PUBLIC_FOLDER;
     const handleLogout = async () =>{
-        const LoggedoutUser = await axios.get("https://musasocialapi.herokuapp.com/auth/logout");
-        if (LoggedoutUser.data.Loggedout === true) {
-            window.location.reload();
-        }
-        
-        
+        // const LoggedoutUser = await axios.get("https://musasocialapi.herokuapp.com/auth/logout");
+        // if (LoggedoutUser.data.Loggedout === true) {
+        //     window.location.reload();
+        // }
+        localStorage.removeItem("accesstoken")
     }
+    useEffect(() => {
+        const checkifLoggedin = async () =>{
+            // dispatch({type: "LOGIN_START"});
+            // try {
+            //     const res = await axios.get("https://musasocialapi.herokuapp.com/auth/login");
+            //     if (res.data.Loggedin === true) {
+                    
+            //         dispatch({type: "LOGIN_SUCCESS", payload: res.data.message});
+            //         setisLoggedin(true)
+            //     }
+            //     else{
+            //         setisLoggedin(false);
+            //     }
+            // } 
+            // catch (error) {
+            //     setisLoggedin(false);
+            //     dispatch({type: "LOGIN_FAILURE", payload: error});    
+            //  }
+            try {
+                const accesstoken = localStorage.getItem("accesstoken")
+                const res = await axios.get("https://musasocialapi.herokuapp.com/auth/login", {
+                    headers: {
+                        authorization: "Bearer " + accesstoken
+                    }
+                });
+                if (res.data.Loggedin === true) {
+                    setuser(res.data.message)
+                }
+                
+            } 
+            catch (error) {
+                console.log(error)
+             }
+            }
+            
+        checkifLoggedin();
+        
+    }, [])
     return (
         <div className="topbarContainer">
             <div className="topbarLeft">
