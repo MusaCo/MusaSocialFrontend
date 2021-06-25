@@ -12,7 +12,6 @@ export default function Feed({username, user}) {
 const [posts, SetPosts] = useState([]);
     
     useEffect(() => {
-        console.log(user?.username)
         const fetchPosts = async () =>{
             const result = username? await axios.get(`https://musasocialapi.herokuapp.com/post/profile/${username}`) : await axios.get(`https://musasocialapi.herokuapp.com/post/timeline/${user?._id}`)
             SetPosts(result.data.sort((p1, p2) =>{
@@ -25,7 +24,7 @@ const [posts, SetPosts] = useState([]);
     return (
         <div className="feed">
             <div className="feedWrapper">
-                {(!username || username === user.username) &&<Share/>}
+                {(!username || username === user?.username) &&<Share/>}
                 {posts.map(p=> (
                     <Post key={p._id} post={p}/>
                 ))}

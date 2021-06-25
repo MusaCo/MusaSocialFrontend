@@ -19,21 +19,6 @@ export default function Profile() {
     
     useEffect(() => {
         const checkifLoggedin = async () =>{
-            // dispatch({type: "LOGIN_START"});
-            // try {
-            //     const res = await axios.get("https://musasocialapi.herokuapp.com/auth/login");
-            //     if (res.data.Loggedin === true) {
-            //         setisLoggedin(true)
-            //         dispatch({type: "LOGIN_SUCCESS", payload: res.data.message});
-            //     }
-            //     else{
-            //         setisLoggedin(false);
-            //     }
-            // } 
-            // catch (error) {
-            //     setisLoggedin(false);
-            //     dispatch({type: "LOGIN_FAILURE", payload: error});    
-            //  }
             try {
                 const accesstoken = localStorage.getItem("accesstoken")
                 const res = await axios.get("https://musasocialapi.herokuapp.com/auth/login", {
@@ -43,7 +28,7 @@ export default function Profile() {
                 });
                 if (res.data.Loggedin === true) {
                     setisLoggedin(true)
-                    setUser(res.data.message.user)
+                    //setUser(res.data.message.user)
                 }
                 else{
                     setisLoggedin(false);

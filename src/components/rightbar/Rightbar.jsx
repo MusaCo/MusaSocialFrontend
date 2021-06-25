@@ -7,9 +7,32 @@ import { Add, Remove } from "@material-ui/icons";
 import { AuthContext } from "../../context/AuthContext";
 
 export default function Rightbar({user}) {
-    const {user:currentuser, dispatch} = useContext(AuthContext)
+    const [currentuser, setcurrentuser] = useState(null)
+    //const {user:currentuser, dispatch} = useContext(AuthContext)
     const [Friends, setFriends] = useState([])
     const [followed, setfollowed] = useState(currentuser?.followings?.includes(user?._id))
+
+     useEffect(() => {
+        const checkifLoggedin = async () =>{
+            try {
+                const accesstoken = localStorage.getItem("accesstoken")
+                const res = await axios.get("https://musasocialapi.herokuapp.com/auth/login", {
+                    headers: {
+                        authorization: "Bearer " + accesstoken
+                    }
+                });
+                if (res.data.Loggedin === true) {
+                    setcurrentuser(res.data.message.user)
+                }
+              
+            } 
+            catch (error) {
+                console.log(error)
+             }
+        }
+        checkifLoggedin();
+        
+    }, [])
 
     useEffect(() => {
         setfollowed(currentuser?.followings?.includes(user?._id));
@@ -18,7 +41,9 @@ export default function Rightbar({user}) {
     useEffect(() => {
         const fetchFriends = async () => {
             try {
-                const friends = await axios.get(`https://musasocialapi.herokuapp.com/users/friends/${user?._id}`);
+                console.log()
+                const friends = await axios.get(`https://musasocialapi.herokuapp.com/users/friends/${currentuser?._id}`);
+                console.log(friends)
                 setFriends(friends.data)
             } catch (error) {
                 console.log(error)
@@ -26,16 +51,16 @@ export default function Rightbar({user}) {
         }
         fetchFriends();
         
-    }, [user?._id])
+    }, [currentuser?._id])
     const handleClick = async () =>{
         try {
             if (followed) {
                 await axios.put("https://musasocialapi.herokuapp.com/users/" + user._id + "/unfollow", {userId: currentuser?._id});
-                dispatch({type: "UNFOLLOW", payload: user._id});
+                // dispatch({type: "UNFOLLOW", payload: user._id});
             } 
             else {
                 await axios.put("https://musasocialapi.herokuapp.com/users/" + user._id + "/follow", {userId: currentuser?._id});
-                dispatch({type: "FOLLOW", payload: user._id});
+                // dispatch({type: "FOLLOW", payload: user._id});
                 
             }
             setfollowed(!followed);
@@ -47,18 +72,22 @@ export default function Rightbar({user}) {
     }
     const PF = process.env.REACT_APP_PUBLIC_FOLDER;
     const Home = () =>{
+        console.log(Friends.length)
         return(
             <>
             <div className="birthdayContainer">
                     <img src="/assets/birthday.png" alt="" className="birthdayImg" />
                     <span className="birthdayText">
-                        <b>Ahmed Adil</b> and <b>7 other Friends</b> have a birthday today
+                        <b>Ahmed Adil</b> and <b>7 other Friendssssss</b> have a birthday today
                     </span>
                 </div>
                 <img src="/assets/tesla.jpg" alt="" className="rightbarAd" />
                 <h4 className="rightbarTitle">Online Friends</h4>
                 <ul className="rightbarFriendList">
-                    {/* online componentr here */}
+                    {Friends.map(p=> (
+                        
+                        <p>{p.username}</p>
+                    ))}
                 </ul>
             </>
         )
