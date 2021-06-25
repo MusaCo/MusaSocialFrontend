@@ -10,7 +10,7 @@ export default function Rightbar({user}) {
     const [currentuser, setcurrentuser] = useState(null)
     //const {user:currentuser, dispatch} = useContext(AuthContext)
     const [Friends, setFriends] = useState([])
-    const [followed, setfollowed] = useState(currentuser?.followings?.includes(user?._id))
+    
 
      useEffect(() => {
         const checkifLoggedin = async () =>{
@@ -33,7 +33,7 @@ export default function Rightbar({user}) {
         checkifLoggedin();
         
     }, [])
-
+    const [followed, setfollowed] = useState(currentuser?.followings?.includes(user?._id))
     useEffect(() => {
         setfollowed(currentuser?.followings?.includes(user?._id));
     }, [currentuser, user?._id])
@@ -42,7 +42,7 @@ export default function Rightbar({user}) {
         const fetchFriends = async () => {
             try {
                 console.log()
-                const friends = await axios.get(`https://musasocialapi.herokuapp.com/users/friends/${currentuser?._id}`);
+                const friends = await axios.get(`https://musasocialapi.herokuapp.com/users/friends/${user?._id}`);
                 console.log(friends)
                 setFriends(friends.data)
             } catch (error) {
@@ -58,7 +58,7 @@ export default function Rightbar({user}) {
                 await axios.put("https://musasocialapi.herokuapp.com/users/" + user._id + "/unfollow", {userId: currentuser?._id});
                 // dispatch({type: "UNFOLLOW", payload: user._id});
             } 
-            else {
+            else if(!followed) {
                 await axios.put("https://musasocialapi.herokuapp.com/users/" + user._id + "/follow", {userId: currentuser?._id});
                 // dispatch({type: "FOLLOW", payload: user._id});
                 

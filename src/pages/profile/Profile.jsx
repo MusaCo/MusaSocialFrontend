@@ -89,11 +89,9 @@ export default function Profile() {
                 <div className="">
                     <Topbar/>
                     <div className="usernotFoundParent">
-                        <h4 className="usernotFound">User Was Not Found!!</h4>
+                        <h4 className="usernotFound">User Not Found!!</h4>
                     </div>
                 </div>
-                
-                
             )
     }
     
