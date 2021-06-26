@@ -46,7 +46,9 @@ export default function Rightbar({user}) {
         const fetchFriends = async () => {
             try {
                 const friends = await axios.get(`https://musasocialapi.herokuapp.com/users/friends/${user?._id}`);
-                console.log(friends)
+                console.log(user)
+                console.log(user?._id)
+                console.log(friends.data)
                 setFriends(friends.data)
             } catch (error) {
                 console.log(error)
