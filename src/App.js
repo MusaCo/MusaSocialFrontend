@@ -9,13 +9,12 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Redirect,
 } from "react-router-dom";
 import axios from "axios";
 
 
 function App() {
-  axios.defaults.withCredentials = true;
+  // axios.defaults.withCredentials = true;
 
   const [User, setUser] = useState(null)
 

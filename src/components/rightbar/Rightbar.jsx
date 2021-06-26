@@ -10,8 +10,7 @@ export default function Rightbar({user}) {
     const [currentuser, setcurrentuser] = useState(null)
     //const {user:currentuser, dispatch} = useContext(AuthContext)
     const [Friends, setFriends] = useState([])
-    
-
+    const PF = process.env.REACT_APP_PUBLIC_FOLDER;
      useEffect(() => {
         const checkifLoggedin = async () =>{
             try {
@@ -23,6 +22,7 @@ export default function Rightbar({user}) {
                 });
                 if (res.data.Loggedin === true) {
                     setcurrentuser(res.data.message.user)
+                    console.log(currentuser)
                 }
               
             } 
@@ -33,15 +33,18 @@ export default function Rightbar({user}) {
         checkifLoggedin();
         
     }, [])
+    
+    console.log(currentuser?.followings)
     const [followed, setfollowed] = useState(currentuser?.followings?.includes(user?._id))
+    console.log(currentuser?.followings?.includes(user?._id))
     useEffect(() => {
         setfollowed(currentuser?.followings?.includes(user?._id));
     }, [currentuser, user?._id])
+    console.log(currentuser?.followings?.includes(user?._id))
 
     useEffect(() => {
         const fetchFriends = async () => {
             try {
-                console.log()
                 const friends = await axios.get(`https://musasocialapi.herokuapp.com/users/friends/${user?._id}`);
                 console.log(friends)
                 setFriends(friends.data)
@@ -70,7 +73,7 @@ export default function Rightbar({user}) {
         }
         
     }
-    const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+    console.log(Friends)
     const Home = () =>{
         console.log(Friends.length)
         return(
@@ -92,7 +95,7 @@ export default function Rightbar({user}) {
             </>
         )
     }
-
+    console.log(currentuser?.username === user?.username)
     const ProfileRightbar = () =>{
         return(
             <>
@@ -120,6 +123,7 @@ export default function Rightbar({user}) {
             <h4 className="rightbarTitle">User Friends</h4>
             <div className="rightbarFollowings">
                 {
+                    // currentuser?.username === user?.username &&
                     Friends.map((friend) => (
                         <Link to={"/profile/" + friend.username} style={{textDecoration: "none"}}>
                             <div className="rightbarFollowing">
