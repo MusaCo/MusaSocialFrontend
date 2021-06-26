@@ -21,7 +21,9 @@ export default function Rightbar({user}) {
                     }
                 });
                 if (res.data.Loggedin === true) {
-                    setcurrentuser(res.data.message.user)
+                    const result = await axios.get("https://musasocialapi.herokuapp.com/users?userId="+ res.data.message.user?._id)
+                    console.log(result.data)
+                    setcurrentuser(result.data)
                     console.log(currentuser)
                 }
               
@@ -47,7 +49,6 @@ export default function Rightbar({user}) {
             try {
                 const friends = await axios.get(`https://musasocialapi.herokuapp.com/users/friends/${user?._id}`);
                 console.log(user)
-                console.log(user?._id)
                 console.log(friends.data)
                 setFriends(friends.data)
             } catch (error) {
@@ -61,10 +62,16 @@ export default function Rightbar({user}) {
         try {
             if (followed) {
                 await axios.put("https://musasocialapi.herokuapp.com/users/" + user._id + "/unfollow", {userId: currentuser?._id});
+                const result = await axios.get("https://musasocialapi.herokuapp.com/users?userId="+ currentuser?._id)
+                console.log(result.data)
+                setcurrentuser(result.data)
                 // dispatch({type: "UNFOLLOW", payload: user._id});
             } 
             else if(!followed) {
                 await axios.put("https://musasocialapi.herokuapp.com/users/" + user._id + "/follow", {userId: currentuser?._id});
+                const result = await axios.get("https://musasocialapi.herokuapp.com/users?userId="+ currentuser?._id)
+                console.log(result.data)
+                setcurrentuser(result.data)
                 // dispatch({type: "FOLLOW", payload: user._id});
                 
             }
