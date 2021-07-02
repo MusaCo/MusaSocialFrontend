@@ -39,7 +39,7 @@ export default function Login() {
             <div className="loginWrapper">
                 <div className="loginLeft">
                     <h3 className="loginLogo">MusaSocial</h3>
-                    <span className="loginDesc">Connect with Friends That You Don't Have :)</span>
+                    <span className="loginDesc">Connect with Friends That You Have :)</span>
                 </div>
                 <div className="loginRight">
                     <form className="loginBox" onSubmit={Submit}>
