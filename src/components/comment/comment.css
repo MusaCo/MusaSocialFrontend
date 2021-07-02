@@ -1,0 +1,35 @@
+.commentWhole {
+  display: flex;
+  margin-top: 15px;
+}
+
+.commentPF {
+  align-self: flex-start;
+  height: 22px;
+  width: 22px;
+  margin-right: 5px;
+  cursor: pointer;
+  padding-top: 3px;
+  border-radius: 50%;
+}
+
+.commentChunk {
+  min-width: 50%;
+  background-color: rgb(248, 244, 244);
+  border: 2px solid rgb(245, 245, 245);
+  border-radius: 8px;
+}
+
+.commentChungoka {
+  padding: 5px;
+}
+
+.commentText {
+  font-size: 13px;
+  line-height: 2.2ch;
+}
+
+.commentName {
+  font-size: 13px;
+  font-weight: bold;
+}
